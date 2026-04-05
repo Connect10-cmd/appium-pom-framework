@@ -146,3 +146,10 @@ mvn test -DsuiteFile=src/test/resources/testng-suite.xml
 | org.apache.logging.log4j:log4j-core | 2.23.1 | Thread-aware logging |
 | org.yaml:snakeyaml | 2.2 | YAML config loading |
 | com.fasterxml.jackson.core:jackson-databind | 2.17.1 | JSON data reading |
+
+
+## Author
+
+Sachin Tiwari
+
+This framework was designed and built to solve real-world mobile automation challenges with focus on stability and maintainability.
