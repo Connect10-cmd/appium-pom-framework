@@ -5,14 +5,12 @@ import com.framework.utils.LogManager;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSDriver;
-import io.opentelemetry.api.logs.Logger;
 
 /**
  * IOSActions — Platform-specific actions for iOS.
  * Extends MobileActions with iOS-optimized gestures.
  */
 public class IOSActions extends MobileActions {
-    private static final Logger logger = LogManager.getLogger(IOSActions.class);
     private final IOSDriver iosDriver;
 
     public IOSActions(AppiumDriver driver, WaitUtils wait) {

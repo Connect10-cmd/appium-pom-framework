@@ -3,7 +3,6 @@ package com.framework.core;
 import com.framework.utils.LogManager;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-<<<<<<< HEAD
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
@@ -15,13 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * DriverManager — Enhanced singleton pattern with ThreadLocal for parallel test safety.
  * Supports multiple devices per platform with device-specific capabilities.
-=======
-import io.appium.java_client.ios.IOSDriver;
-import java.net.URL;
-
-/**
- * DriverManager — Singleton pattern with ThreadLocal for parallel test safety.
->>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
  * Each thread (device) gets its own isolated AppiumDriver instance.
  */
 public class DriverManager {
@@ -29,29 +21,22 @@ public class DriverManager {
     // ThreadLocal ensures each parallel thread gets its own driver instance
     private static final ThreadLocal<AppiumDriver> driverThread = new ThreadLocal<>();
 
-<<<<<<< HEAD
     // Track active drivers for cleanup
     private static final Map<String, AppiumDriver> activeDrivers = new ConcurrentHashMap<>();
 
-=======
->>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     private DriverManager() { /* Prevent instantiation */ }
 
     public static AppiumDriver getDriver() {
         return driverThread.get();
     }
 
-<<<<<<< HEAD
     /**
      * Initialize driver for specific platform and device.
      * @param platform android/ios
      * @param deviceName optional device identifier for multi-device support
      */
     public static void initDriver(String platform, String deviceName) {
-=======
-    public static void initDriver(String platform) {
->>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
-        CapabilitiesManager caps = new CapabilitiesManager();
+        CapabilitiesManager caps = CapabilitiesManager.getInstance();
         URL serverUrl;
         try {
             serverUrl = caps.getAppiumServerUrl();
@@ -60,7 +45,6 @@ public class DriverManager {
         }
 
         AppiumDriver driver;
-<<<<<<< HEAD
         String threadKey = Thread.currentThread().getName() +
             (deviceName != null ? "-" + deviceName : "");
 
@@ -80,21 +64,12 @@ public class DriverManager {
                     iosCaps.setDeviceName(deviceName);
                 }
                 driver = new IOSDriver(serverUrl, iosCaps);
-=======
-        switch (platform.toLowerCase()) {
-            case "android":
-                driver = new AndroidDriver(serverUrl, caps.getAndroidOptions());
-                break;
-            case "ios":
-                driver = new IOSDriver(serverUrl, caps.getIOSOptions());
->>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported platform: " + platform);
         }
 
         driverThread.set(driver);
-<<<<<<< HEAD
         activeDrivers.put(threadKey, driver);
 
         LogManager.info("Driver initialized for: " + platform +
@@ -180,17 +155,6 @@ public class DriverManager {
             LogManager.info("App unhealthy, restarting driver for " + platform + " device: " + deviceName);
             quitDriver(deviceName);
             initDriver(platform, deviceName);
-=======
-        LogManager.info("Driver initialized for: " + platform
-            + " [Thread: " + Thread.currentThread().getName() + "]");
-    }
-
-    public static void quitDriver() {
-        if (driverThread.get() != null) {
-            driverThread.get().quit();
-            driverThread.remove(); // Critical: prevents memory leaks in parallel runs
-            LogManager.info("Driver quit and removed from ThreadLocal.");
->>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
         }
     }
 }
