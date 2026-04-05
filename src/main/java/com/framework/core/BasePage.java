@@ -1,10 +1,13 @@
 package com.framework.core;
 
+<<<<<<< HEAD
 import com.framework.utils.ActionWrapper;
 import com.framework.utils.ExceptionHandler;
 import com.framework.utils.LogManager;
 import io.appium.java_client.AppiumBy;
 
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -24,12 +27,18 @@ public abstract class BasePage {
 
     protected AppiumDriver driver;
     protected WaitUtils wait;
+<<<<<<< HEAD
     protected ActionWrapper actions;
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
 
     public BasePage(AppiumDriver driver) {
         this.driver = driver;
         this.wait = new WaitUtils(driver);
+<<<<<<< HEAD
         this.actions = new ActionWrapper(driver, wait);
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     }
 
     // ── Tap ─────────────────────────────────────────────────────────────────

@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class CapabilitiesManager {
 
+<<<<<<< HEAD
     private static CapabilitiesManager instance;
     private final Map<String, Object> config;
 
@@ -28,10 +29,21 @@ public class CapabilitiesManager {
             if (in == null) {
                 throw new RuntimeException("Config file not found: " + configFile + " or config.yaml");
             }
+=======
+    private final Map<String, Object> config;
+
+    @SuppressWarnings("unchecked")
+    public CapabilitiesManager() {
+        Yaml yaml = new Yaml();
+        InputStream in = getClass().getResourceAsStream("/config.yaml");
+        if (in == null) {
+            throw new RuntimeException("config.yaml not found in classpath resources.");
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
         }
         config = yaml.load(in);
     }
 
+<<<<<<< HEAD
     public static CapabilitiesManager getInstance() {
         if (instance == null) {
             instance = new CapabilitiesManager();
@@ -44,6 +56,10 @@ public class CapabilitiesManager {
             System.getenv().getOrDefault("APPIUM_SERVER_URL",
                 (String) config.get("appiumServer")));
         return new URL(serverUrl);
+=======
+    public URL getAppiumServerUrl() throws Exception {
+        return new URL((String) config.get("appiumServer"));
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +87,7 @@ public class CapabilitiesManager {
             .setNoReset((Boolean) ios.getOrDefault("noReset", true))
             .setWdaLocalPort(8100);
     }
+<<<<<<< HEAD
 
     @SuppressWarnings("unchecked")
     public Map<String, Object> getRetryConfig() {
@@ -104,4 +121,6 @@ public class CapabilitiesManager {
         Integer timeoutSeconds = (Integer) retry.getOrDefault("defaultTimeout", 10);
         return Duration.ofSeconds(timeoutSeconds);
     }
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
 }

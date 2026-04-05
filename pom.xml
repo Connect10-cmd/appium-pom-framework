@@ -17,7 +17,11 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<<<<<<< HEAD
     <appium.version>10.1.0</appium.version>
+=======
+    <appium.version>9.2.3</appium.version>
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     <testng.version>7.10.2</testng.version>
     <allure.version>2.27.0</allure.version>
     <log4j.version>2.23.1</log4j.version>
@@ -25,7 +29,10 @@
     <snakeyaml.version>2.2</snakeyaml.version>
     <surefire.version>3.3.0</surefire.version>
     <allure.maven.version>2.14.0</allure.maven.version>
+<<<<<<< HEAD
     <suiteFile>src/test/resources/testng-suite.xml</suiteFile>
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
   </properties>
 
   <dependencies>

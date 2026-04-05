@@ -12,12 +12,18 @@ import org.testng.annotations.*;
 public abstract class BaseTest {
 
     protected AppManager appManager;
+<<<<<<< HEAD
     private long testStartTime;
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
 
     @Parameters({"platform"})
     @BeforeMethod(alwaysRun = true)
     public void setUp(@Optional("android") String platform) {
+<<<<<<< HEAD
         testStartTime = System.currentTimeMillis();
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
         LogManager.info("=== Setting up driver for platform: " + platform + " ===");
         DriverManager.initDriver(platform);
         appManager = new AppManager(
@@ -29,6 +35,7 @@ public abstract class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
+<<<<<<< HEAD
         long duration = System.currentTimeMillis() - testStartTime;
         LogManager.info("=== Tearing down driver ===");
         DriverManager.quitDriver();
@@ -37,5 +44,9 @@ public abstract class BaseTest {
         } else {
             LogManager.info("Test completed in " + duration + "ms");
         }
+=======
+        LogManager.info("=== Tearing down driver ===");
+        DriverManager.quitDriver();
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     }
 }

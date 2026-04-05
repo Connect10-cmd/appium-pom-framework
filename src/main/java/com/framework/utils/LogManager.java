@@ -45,9 +45,12 @@ public class LogManager {
     private static String getThread() {
         return Thread.currentThread().getName();
     }
+<<<<<<< HEAD
 
     public static io.opentelemetry.api.logs.Logger getLogger(Class<IOSActions> class1) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getLogger'");
     }
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
 }

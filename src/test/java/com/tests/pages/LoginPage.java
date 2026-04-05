@@ -1,8 +1,12 @@
 package com.tests.pages;
 
 import com.framework.core.BasePage;
+<<<<<<< HEAD
 import com.framework.utils.MobileActions;
 import com.framework.utils.MobileActionsFactory;
+=======
+import com.framework.utils.LogManager;
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -17,8 +21,11 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class LoginPage extends BasePage {
 
+<<<<<<< HEAD
     private final MobileActions actions;
 
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     // ── Locators: dual annotation for Android + iOS ──────────────────────────
 
     @AndroidFindBy(accessibility = "username_field")
@@ -48,28 +55,45 @@ public class LoginPage extends BasePage {
     public LoginPage(AppiumDriver driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+<<<<<<< HEAD
         String platform = System.getProperty("platform", "android");
         this.actions = MobileActionsFactory.getActions(platform, driver, wait);
+=======
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     }
 
     // ── Page Actions ─────────────────────────────────────────────────────────
 
     @Step("Enter username: {username}")
     public LoginPage enterUsername(String username) {
+<<<<<<< HEAD
         actions.sendKeys(usernameField, username, "Username Field");
+=======
+        typeText(usernameField, username);
+        LogManager.info("Entered username field");
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
         return this;
     }
 
     @Step("Enter password")
     public LoginPage enterPassword(String password) {
+<<<<<<< HEAD
         actions.sendKeys(passwordField, password, "Password Field");
+=======
+        typeText(passwordField, password);
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
         return this;
     }
 
     @Step("Tap Login button")
     public LoginPage tapLogin() {
+<<<<<<< HEAD
         actions.click(loginButton, "Login Button");
         actions.waitForVisible(loadingSpinner, "Loading Spinner");
+=======
+        tap(loginButton);
+        wait.waitForInvisible(loadingSpinner);
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
         return this;
     }
 
@@ -82,13 +106,18 @@ public class LoginPage extends BasePage {
 
     @Step("Tap Forgot Password link")
     public void tapForgotPassword() {
+<<<<<<< HEAD
         actions.click(forgotPasswordLink, "Forgot Password Link");
+=======
+        tap(forgotPasswordLink);
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     }
 
     // ── Getters for Assertions ───────────────────────────────────────────────
 
     @Step("Get error message text")
     public String getErrorMessage() {
+<<<<<<< HEAD
         return actions.getText(errorMessage, "Error Message");
     }
 
@@ -98,6 +127,17 @@ public class LoginPage extends BasePage {
 
     public boolean isLoginButtonEnabled() {
         return actions.waitForClickable(loginButton, "Login Button").isEnabled();
+=======
+        return getText(errorMessage);
+    }
+
+    public boolean isErrorDisplayed() {
+        return isDisplayed(errorMessage);
+    }
+
+    public boolean isLoginButtonEnabled() {
+        return loginButton.isEnabled();
+>>>>>>> 2a1f502 (feat: implement core framework structure with POM, driver management, actions, and config support)
     }
 
     public boolean isLoginPageDisplayed() {
