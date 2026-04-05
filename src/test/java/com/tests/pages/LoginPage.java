@@ -1,7 +1,8 @@
 package com.tests.pages;
 
 import com.framework.core.BasePage;
-import com.framework.utils.LogManager;
+import com.framework.utils.MobileActions;
+import com.framework.utils.MobileActionsFactory;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -15,6 +16,8 @@ import org.openqa.selenium.support.PageFactory;
  * Uses @AndroidFindBy + @iOSXCUITFindBy for cross-platform element location.
  */
 public class LoginPage extends BasePage {
+
+    private final MobileActions actions;
 
     // ── Locators: dual annotation for Android + iOS ──────────────────────────
 
@@ -45,27 +48,28 @@ public class LoginPage extends BasePage {
     public LoginPage(AppiumDriver driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        String platform = System.getProperty("platform", "android");
+        this.actions = MobileActionsFactory.getActions(platform, driver, wait);
     }
 
     // ── Page Actions ─────────────────────────────────────────────────────────
 
     @Step("Enter username: {username}")
     public LoginPage enterUsername(String username) {
-        typeText(usernameField, username);
-        LogManager.info("Entered username field");
+        actions.sendKeys(usernameField, username, "Username Field");
         return this;
     }
 
     @Step("Enter password")
     public LoginPage enterPassword(String password) {
-        typeText(passwordField, password);
+        actions.sendKeys(passwordField, password, "Password Field");
         return this;
     }
 
     @Step("Tap Login button")
     public LoginPage tapLogin() {
-        tap(loginButton);
-        wait.waitForInvisible(loadingSpinner);
+        actions.click(loginButton, "Login Button");
+        actions.waitForVisible(loadingSpinner, "Loading Spinner");
         return this;
     }
 
@@ -78,22 +82,22 @@ public class LoginPage extends BasePage {
 
     @Step("Tap Forgot Password link")
     public void tapForgotPassword() {
-        tap(forgotPasswordLink);
+        actions.click(forgotPasswordLink, "Forgot Password Link");
     }
 
     // ── Getters for Assertions ───────────────────────────────────────────────
 
     @Step("Get error message text")
     public String getErrorMessage() {
-        return getText(errorMessage);
+        return actions.getText(errorMessage, "Error Message");
     }
 
     public boolean isErrorDisplayed() {
-        return isDisplayed(errorMessage);
+        return actions.isDisplayed(errorMessage, "Error Message");
     }
 
     public boolean isLoginButtonEnabled() {
-        return loginButton.isEnabled();
+        return actions.waitForClickable(loginButton, "Login Button").isEnabled();
     }
 
     public boolean isLoginPageDisplayed() {

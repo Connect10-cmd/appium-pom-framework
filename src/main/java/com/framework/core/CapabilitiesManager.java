@@ -14,20 +14,36 @@ import java.util.Map;
  */
 public class CapabilitiesManager {
 
+    private static CapabilitiesManager instance;
     private final Map<String, Object> config;
 
-    @SuppressWarnings("unchecked")
-    public CapabilitiesManager() {
+    @SuppressWarnings("unchecked") CapabilitiesManager() {
         Yaml yaml = new Yaml();
-        InputStream in = getClass().getResourceAsStream("/config.yaml");
+        String env = System.getProperty("env", System.getenv().getOrDefault("ENV", "dev"));
+        String configFile = "/config-" + env + ".yaml";
+        InputStream in = getClass().getResourceAsStream(configFile);
         if (in == null) {
-            throw new RuntimeException("config.yaml not found in classpath resources.");
+            // Fallback to default config.yaml
+            in = getClass().getResourceAsStream("/config.yaml");
+            if (in == null) {
+                throw new RuntimeException("Config file not found: " + configFile + " or config.yaml");
+            }
         }
         config = yaml.load(in);
     }
 
+    public static CapabilitiesManager getInstance() {
+        if (instance == null) {
+            instance = new CapabilitiesManager();
+        }
+        return instance;
+    }
+
     public URL getAppiumServerUrl() throws Exception {
-        return new URL((String) config.get("appiumServer"));
+        String serverUrl = System.getProperty("appium.server.url",
+            System.getenv().getOrDefault("APPIUM_SERVER_URL",
+                (String) config.get("appiumServer")));
+        return new URL(serverUrl);
     }
 
     @SuppressWarnings("unchecked")
@@ -54,5 +70,38 @@ public class CapabilitiesManager {
             .setBundleId((String) ios.get("bundleId"))
             .setNoReset((Boolean) ios.getOrDefault("noReset", true))
             .setWdaLocalPort(8100);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getRetryConfig() {
+        return (Map<String, Object>) config.get("retry");
+    }
+
+    public int getMaxRetryAttempts() {
+        Map<String, Object> retry = getRetryConfig();
+        return (Integer) retry.getOrDefault("maxAttempts", 3);
+    }
+
+    public long getRetryDelayMs() {
+        Map<String, Object> retry = getRetryConfig();
+        return (Integer) retry.getOrDefault("retryDelayMs", 500);
+    }
+
+    public boolean isHighlightingEnabled() {
+        Map<String, Object> retry = getRetryConfig();
+        return (Boolean) retry.getOrDefault("enableHighlighting", true);
+    }
+
+    @SuppressWarnings("unchecked")
+    public java.util.List<String> getRetryExceptions() {
+        Map<String, Object> retry = getRetryConfig();
+        return (java.util.List<String>) retry.getOrDefault("exceptions",
+            java.util.Arrays.asList("StaleElementReferenceException", "NoSuchElementException"));
+    }
+
+    public Duration getDefaultTimeout() {
+        Map<String, Object> retry = getRetryConfig();
+        Integer timeoutSeconds = (Integer) retry.getOrDefault("defaultTimeout", 10);
+        return Duration.ofSeconds(timeoutSeconds);
     }
 }

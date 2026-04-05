@@ -2,6 +2,8 @@
 # Edit this file for your target devices. Do NOT commit real credentials.
 
 appiumServer: "http://127.0.0.1:4723"
+# For cloud providers, set via env var: APPIUM_SERVER_URL=https://hub-cloud.browserstack.com/wd/hub
+# Or override in config-dev.yaml, config-qa.yaml
 defaultTimeout: 15       # seconds for WebDriverWait
 pollingInterval: 500     # milliseconds for FluentWait
 
@@ -29,4 +31,10 @@ allure:
   resultsDir: "target/allure-results"
 
 retry:
-  maxAttempts: 2
+  maxAttempts: 3
+  retryDelayMs: 500
+  defaultTimeout: 10
+  enableHighlighting: true
+  exceptions:
+    - "StaleElementReferenceException"
+    - "TimeoutException"

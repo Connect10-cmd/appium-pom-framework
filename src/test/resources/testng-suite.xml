@@ -3,9 +3,9 @@
 
 <!--
   testng-suite.xml — Master parallel execution configuration.
-  parallel="methods" + thread-count="3" = 3 devices running simultaneously.
+  parallel="methods" + thread-count from system property = dynamic devices.
 -->
-<suite name="AppiumMobileTestSuite" parallel="methods" thread-count="3" verbose="1">
+<suite name="AppiumMobileTestSuite" parallel="methods" thread-count="${parallel.threads}" verbose="1">
 
   <listeners>
     <listener class-name="com.framework.utils.ScreenshotListener"/>

@@ -12,10 +12,12 @@ import org.testng.annotations.*;
 public abstract class BaseTest {
 
     protected AppManager appManager;
+    private long testStartTime;
 
     @Parameters({"platform"})
     @BeforeMethod(alwaysRun = true)
     public void setUp(@Optional("android") String platform) {
+        testStartTime = System.currentTimeMillis();
         LogManager.info("=== Setting up driver for platform: " + platform + " ===");
         DriverManager.initDriver(platform);
         appManager = new AppManager(
@@ -27,7 +29,13 @@ public abstract class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
+        long duration = System.currentTimeMillis() - testStartTime;
         LogManager.info("=== Tearing down driver ===");
         DriverManager.quitDriver();
+        if (duration > 30000) { // 30 seconds
+            LogManager.warn("SLOW TEST DETECTED: " + duration + "ms (>30s)");
+        } else {
+            LogManager.info("Test completed in " + duration + "ms");
+        }
     }
 }

@@ -1,5 +1,10 @@
 package com.framework.core;
 
+import com.framework.utils.ActionWrapper;
+import com.framework.utils.ExceptionHandler;
+import com.framework.utils.LogManager;
+import io.appium.java_client.AppiumBy;
+
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -19,10 +24,12 @@ public abstract class BasePage {
 
     protected AppiumDriver driver;
     protected WaitUtils wait;
+    protected ActionWrapper actions;
 
     public BasePage(AppiumDriver driver) {
         this.driver = driver;
         this.wait = new WaitUtils(driver);
+        this.actions = new ActionWrapper(driver, wait);
     }
 
     // ── Tap ─────────────────────────────────────────────────────────────────
