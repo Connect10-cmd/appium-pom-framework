@@ -1,0 +1,22 @@
+[
+  {
+    "username": "valid_user@test.com",
+    "password": "Valid@Pass1",
+    "expectedResult": "success"
+  },
+  {
+    "username": "admin@test.com",
+    "password": "Admin@Pass1",
+    "expectedResult": "success"
+  },
+  {
+    "username": "wrong@test.com",
+    "password": "WrongPass",
+    "expectedResult": "error"
+  },
+  {
+    "username": "",
+    "password": "",
+    "expectedResult": "validation_error"
+  }
+]

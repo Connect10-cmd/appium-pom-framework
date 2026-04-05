@@ -1,0 +1,32 @@
+# Maven
+target/
+*.class
+*.jar
+
+# Allure results (generated — do not commit)
+allure-results/
+allure-report/
+
+# Logs
+logs/
+*.log
+
+# App binaries (large — store in artifact registry)
+src/test/resources/apps/*.apk
+src/test/resources/apps/*.ipa
+src/test/resources/apps/*.app
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — NEVER commit
+src/main/resources/config.local.yaml

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--
+  testng-suite.xml — Master parallel execution configuration.
+  parallel="methods" + thread-count="3" = 3 devices running simultaneously.
+-->
+<suite name="AppiumMobileTestSuite" parallel="methods" thread-count="3" verbose="1">
+
+  <listeners>
+    <listener class-name="com.framework.utils.ScreenshotListener"/>
+    <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+  </listeners>
+
+  <test name="Smoke — Android">
+    <parameter name="platform" value="android"/>
+    <groups>
+      <run><include name="smoke"/></run>
+    </groups>
+    <packages>
+      <package name="com.tests.positive"/>
+    </packages>
+  </test>
+
+  <test name="Positive — Android">
+    <parameter name="platform" value="android"/>
+    <packages>
+      <package name="com.tests.positive"/>
+    </packages>
+  </test>
+
+  <test name="Negative — Android">
+    <parameter name="platform" value="android"/>
+    <packages>
+      <package name="com.tests.negative"/>
+    </packages>
+  </test>
+
+  <test name="Edge Cases — Android">
+    <parameter name="platform" value="android"/>
+    <packages>
+      <package name="com.tests.edge"/>
+    </packages>
+  </test>
+
+</suite>

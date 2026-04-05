@@ -1,0 +1,75 @@
+name: Appium Mobile CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * *'   # Nightly regression at 2AM UTC
+
+jobs:
+  mobile-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ android ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Enable KVM (Android emulator acceleration)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | \
+          sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Install Node.js + Appium 2
+        run: |
+          npm install -g appium@2
+          appium driver install uiautomator2
+          appium driver install xcuitest
+
+      - name: Start Android Emulator and Run Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 6
+          script: |
+            appium &
+            sleep 5
+            mvn test \
+              -Dplatform=${{ matrix.platform }} \
+              -DsuiteFile=src/test/resources/testng-suite.xml \
+              -Dmaven.test.failure.ignore=true
+
+      - name: Generate Allure Report
+        if: always()
+        run: mvn allure:report
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report-${{ matrix.platform }}-${{ github.run_id }}
+          path: target/allure-report
+          retention-days: 30
+
+      - name: Upload Allure Results (for history)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-${{ matrix.platform }}
+          path: target/allure-results

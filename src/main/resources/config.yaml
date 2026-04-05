@@ -1,0 +1,32 @@
+# config.yaml — Device and environment configuration
+# Edit this file for your target devices. Do NOT commit real credentials.
+
+appiumServer: "http://127.0.0.1:4723"
+defaultTimeout: 15       # seconds for WebDriverWait
+pollingInterval: 500     # milliseconds for FluentWait
+
+android:
+  deviceName: "Pixel_6_API_33"
+  platformVersion: "13.0"
+  appPath: "src/test/resources/apps/myapp.apk"
+  appPackage: "com.example.myapp"
+  appActivity: "com.example.myapp.MainActivity"
+  noReset: true
+  fullReset: false
+  autoGrantPermissions: true
+
+ios:
+  deviceName: "iPhone 14"
+  platformVersion: "16.4"
+  appPath: "src/test/resources/apps/myapp.app"
+  bundleId: "com.example.myapp"
+  noReset: true
+  wdaLocalPort: 8100
+  xcodeOrgId: "YOUR_TEAM_ID"
+  xcodeSigningId: "iPhone Developer"
+
+allure:
+  resultsDir: "target/allure-results"
+
+retry:
+  maxAttempts: 2
